@@ -619,6 +619,38 @@
                 totalPrice: document.getElementById("total-price").innerText
             });
 
+            // Simulate sending data to webhook
+            const webhookUrl = 'https://hook.us2.make.com/do6wdvwxkiwg1yeg51cbq19pq7qsr2je';  // Replace with your actual webhook URL
+            fetch(webhookUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    orderId: document.getElementById("order-id").value,
+                    name: name,
+                    phone: phone,
+                    email: email,
+                    address: address,
+                    cart: cart,
+                    totalPrice: document.getElementById("total-price").innerText
+                }),
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Webhook response:', data);
+                // Handle the response from the webhook if needed
+            })
+            .catch(error => {
+                console.error('Error sending data to webhook:', error);
+                alert("Có lỗi xảy ra khi gửi đơn hàng. Vui lòng thử lại sau.");
+            });
+
             // Simulate successful submission and show payment info
             let paymentInfo = `
                 <h2>Thông tin thanh toán</h2>
@@ -646,8 +678,8 @@
             let productImg = "";
             let productPrice = 0;
             switch (productName) {
-                case "Gửi Email Hàng Loạt":
-                    productDetails = "Cá nhân hóa như gửi tay–nhưng nhanh gấp 10 lần. Không còn sai tên, sót nội dung, hay gửi nhầm người. Dễ mở rộng cho 10, 100 hay 1,000 khách hàng chỉ trong vài phút. Giữ phong cách chuyên nghiệp–tăng tỷ lệ phản hồi & chuyển đổi.";
+                case "Gửi Email Hàng Loạt - cá nhân hoá":
+                    productDetails = "Cá nhân hóa như gửi tay–nhưng nhanhgấp 10 lần. Không còn sai tên, sót nội dung, hay gửi nhầm người. Dễ mở rộng cho 10, 100 hay 1,000 khách hàng chỉ trong vài phút. Giữ phong cách chuyên nghiệp–tăng tỷ lệ phản hồi & chuyển đổi.";
                     productImg = "https://res.cloudinary.com/dtz36zmtd/image/upload/v1747381168/G%E1%BB%ADi_mail_h%C3%A0ng_lo%E1%BA%A1t_w4vu3r.png";
                     productPrice = 1100000;
                     break;
