@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vi's Corner - Touch – Activate – Operate!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f7ebe5;
+            color: #5a3e36;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        h1, h2 {
+            font-family: 'Playfair Display', serif;
+            color: #d9a7a0;
+            font-weight: 700;
+            text-align: center;
+        }
+        p {
+            font-family: 'Inter', sans-serif;
+            color: #5a3e36;
+            font-size: 16px;
+            line-height: 1.7;
+        }
+        a {
+            font-family: 'Inter', sans-serif;
+            color: #d9a7a0;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease, background-color 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+        }
+        a:hover {
+            color: white;
+            background-color: #b58980;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: #d9a7a0;
+            padding: 20px 0;
+            color: white;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        header h1 {
+            color: white;
+            font-size: 2.5rem;
+            margin-bottom: 0;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 1rem;
+            text-align: center;
+        }
+        nav ul li {
+            display: inline;
+            margin: 0 20px;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: color 0.3s ease;
+        }
+        nav ul li a:hover {
+            color: #f3d9d3;
+        }
+
+        /* Main Content Styles */
+        main {
+            display: flex;
+            flex: 1;
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 20px;
+        }
+        .hero {
+            padding: 4rem 0;
+            background-color: #ffede1;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        .hero-image {
+            width: 100%;
+            max-width: 800px;
+            height: auto;
+            border-radius: 10px;
+            margin: 0 auto;
+        }
+        .about {
+            text-align: center;
+            padding: 2rem;
+            background-color: #f3d9d3;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+        .about h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        .about p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+        .chatbot-info {
+            padding: 2rem;
+            background-color: #f3d9d3;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+        .chatbot-info h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: #d9a7a0;
+        }
+        .chatbot-info ul {
+            list-style: none;
+            padding: 0;
+            margin-left: 2rem;
+        }
+        .chatbot-info ul li {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        /* Products Page Styles */
+        .products {
+            flex: 3;
+            padding-right: 20px;
+        }
+        .products h2{
+            text-align: left;
+        }
+        .products-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 2rem;
+            padding: 2rem;
+        }
+        .product {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            width: 30%;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: 2rem;
+        }
+        .product:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+        .product img {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+        }
+        .product h2 {
+            color: #d9a7a0;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .product p {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+        .product button {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            background: #d9a7a0;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+            font-size: 1.1rem;
+            border: none;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+        .product button:hover {
+            background: #b58980;
+        }
+
+        /* Blog Page Styles */
+        .tip {
+            border-bottom: 1px solid #ddd;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        .tip h2 {
+            color: #d9a7a0;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+        .tip p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+        .tip a {
+            color: #d9a7a0;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease, background-color 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+        }
+        .tip a:hover {
+            color: white;
+            background-color: #d9a7a0;
+        }
+        .tip img {
+            width: 100%;
+            max-width: 300px;
+            height: auto;
+            border-radius: 10px;
+            margin-top: 1.5rem;
+        }
+
+        /* Footer Styles */
+        footer {
+            background-color: #d9a7a0;
+            color: white;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            text-align: center;
+            border-top: 1px solid #b58980;
+        }
+        footer p {
+            font-size: 1rem;
+        }
+
+        /* Cart Styles */
+        .cart {
+            flex: 1;
+            background-color: #f3d9d3;
+            padding: 2rem;
+            border-radius: 10px;
+            margin-top: 0;
+            position: sticky;
+            top: 2rem;
+            height: fit-content;
+        }
+        .cart h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+        .cart table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5rem;
+            color: #5a3e36;
+        }
+        .cart table thead tr {
+            border-bottom: 2px solid #b58980;
+        }
+        .cart table th, .cart table td {
+            padding: 0.75rem;
+            text-align: left;
+        }
+        .cart table tbody tr:nth-child(odd) {
+            background-color: #f7ebe5;
+        }
+        .cart table tbody tr:nth-child(even) {
+            background-color: #ffffff;
+        }
+        .cart p {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        .cart button {
+            padding: 0.8rem 2rem;
+            background: #d9a7a0;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+            font-size: 1.1rem;
+            border: none;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+        .cart button:hover {
+            background: #b58980;
+        }
+
+        /* Payment Popup Styles */
+        #payment-popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 2rem;
+            border: 1px solid #b58980;
+            border-radius: 10px;
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+            z-index: 10;
+            text-align: center;
+            color: #5a3e36;
+        }
+        #payment-popup h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #d9a7a0;
+        }
+        #payment-popup p {
+            font-size: 1.1rem;
+            margin-bottom: 0.75rem;
+            line-height: 1.8;
+        }
+        #payment-popup a {
+            color: #d9a7a0;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease, background-color 0.3s ease;
+        }
+        #payment-popup a:hover {
+            color: white;
+            background-color: #d9a7a0;
+        }
+        #payment-popup button {
+            margin-top: 1.5rem;
+            padding: 0.8rem 2rem;
+            background: #d9a7a0;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+            font-size: 1.1rem;
+            border: none;
+            cursor: pointer;
+        }
+        #payment-popup button:hover {
+            background: #b58980;
+        }
+
+        /* Product Details Popup Styles */
+        #product-details-popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 2rem;
+            border: 1px solid #b58980;
+            border-radius: 10px;
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+            z-index: 11;
+            text-align: left;
+            color: #5a3e36;
+            max-width: 400px;
+        }
+        #product-details-popup h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #d9a7a0;
+        }
+        #product-details-popup p {
+            font-size: 1.1rem;
+            margin-bottom: 0.75rem;
+            line-height: 1.8;
+        }
+        #product-details-popup img {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+        #product-details-popup button {
+            margin-top: 1.5rem;
+            padding: 0.8rem 2rem;
+            background: #d9a7a0;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+            font-size: 1.1rem;
+            border: none;
+            cursor: pointer;
+        }
+        #product-details-popup button:hover {
+            background: #b58980;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            nav ul li {
+                display: block;
+                margin: 1rem 0;
+            }
+            .products-container {
+                gap: 1.5rem;
+            }
+            .product {
+                width: 100%;
+            }
+            .cart table th, .cart table td {
+                display: block;
+                width: 100%;
+                text-align: center;
+            }
+            .cart table tr {
+                margin-bottom: 1rem;
+                display: block;
+                border-bottom: 1px solid #b58980;
+                padding-bottom: 1rem;
+            }
+            .cart table thead {
+                display: none;
+            }
+            .cart table td:before {
+                content: attr(data-label);
+                display: block;
+                font-weight: bold;
+                margin-bottom: 0.5rem;
+            }
+            main {
+                flex-direction: column;
+                padding: 0 10px;
+            }
+            .cart {
+                position: relative;
+                top: 0;
+                margin-top: 2rem;
+            }
+            .products {
+                padding-right: 0;
+            }
+        }
+    </style>
+    <script>
+        let cart = [];
+
+        function addToCart(name, price) {
+            let product = cart.find(item => item.name === name);
+            if (product) {
+                product.quantity += 1;
+            } else {
+                cart.push({ name, price, quantity: 1 });
+            }
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            let cartContent = document.getElementById("cart-items");
+            let totalPrice = 0;
+            let totalQuantity = 0;
+            cartContent.innerHTML = "";
+
+            cart.forEach(item => {
+                let row = document.createElement("tr");
+                row.innerHTML = `<td data-label="Sản phẩm">${item.name}</td><td data-label="Số lượng">${item.quantity}</td><td data-label="Giá">${item.price.toLocaleString()} VND</td>`;
+                cartContent.appendChild(row);
+                totalQuantity += item.quantity;
+                totalPrice += item.price * item.quantity;
+            });
+
+            document.getElementById("total-quantity").innerText = totalQuantity;
+            document.getElementById("total-price").innerText = totalPrice.toLocaleString() + " VND";
+        }
+
+        function checkout() {
+            let orderId = "ORDER-" + Math.floor(Math.random() * 1000000);
+            let paymentInfo = `
+                <h2>Thông tin thanh toán</h2>
+                <p>Tài khoản: <strong>VCB 0071004369538</strong></p>
+                <p>Chủ tài khoản: <strong>Nguyễn Song Quỳnh Vi</strong></p>
+                <p>Nội dung chuyển khoản: <strong>${orderId}</strong></p>
+                <p>Tổng sản phẩm: <strong>${document.getElementById("total-quantity").innerText}</strong></p>
+                <p>Tổng giá: <strong>${document.getElementById("total-price").innerText}</strong></p>
+                <p><a href="https://zalo.me/0329909247" target="_blank">Xác nhận thanh toán qua Zalo</a></p>
+            `;
+            document.getElementById("payment-info").innerHTML = paymentInfo;
+            document.getElementById("payment-popup").style.display = "block";
+        }
+
+        function closePopup() {
+            document.getElementById("payment-popup").style.display = "none";
+        }
+
+        function showProductDetails(productName) {
+            let productDetails = "";
+            let productImg = "";
+            let productPrice = 0;
+            switch (productName) {
+                case "💌 Email Hàng Loạt":
+                    productDetails = "💡 Giải pháp tự động hóa: Flow tự động hóa giúp bạn: • Gửi email hàng loạt như thể viết tay từng cái • Cá nhân hóa tên, mã ưu đãi, nội dung riêng • Gửi qua Gmail, Outlook hoặc bất kỳ nền tảng nào bạn dùng";
+                    productImg = "https://skincode.com.vn/upload/2022/10/17/images/skincode-3-in-1-gentle-cleanser-2.jpg";
+                    productlink = "https://breezy-comic-723.notion.site/G-i-Email-H-ng-Lo-t-M-V-n-C-Nh-n-Nh-T-ng-Tin-Nh-n-Ri-ng-Bi-t-1f20de25554b8148a570ed3bb8db09f5?pvs=4";
+                    productPrice = 1100000;
+                    break;
+                case "Skincode S.O.S Oil Control":
+                    productDetails = "Kẽm PCA, chiết xuất cây phỉ, không chứa paraben. Loại bỏ bụi bẩn, bã nhờn, điều tiết dầu và ngăn ngừa mụn. Thoa một lượng nhỏ lên da ướt, massage nhẹ nhàng rồi rửa lại với nước. Sử dụng hàng ngày, sáng và tối. Dành cho da dầu và da mụn.";
+                    productImg = "https://skincode.com.vn/upload/2022/08/24/files/skincode-essentials-S_O_S-oil-control-clarifying-wash.jpg";
+                    productPrice = 995000;
+                    break;
+                case "Skincode Essentials Purifying Cleansing Gel":
+                    productDetails = "Chiết xuất lô hội, vitamin B5, không chứa paraben. Làm sạch sâu, chống khuẩn, ngừa viêm nhiễm và hỗ trợ điều trị mụn. Thoa một lượng nhỏ lên da ướt, massage nhẹ nhàng rồi rửa lại với nước. Sử dụng hàng ngày, sáng và tối. Phù hợp cho da dầu và da hỗn hợp.";
+                    productImg = "https://skincode.com.vn/upload/2022/08/24/files/skincode-essentials-purifying-cleansing-gel.jpg";
+                    productPrice = 950000;
+                    break;
+                case "Skincode Micellar Water All In One Cleanser":
+                    productDetails = "Công nghệ Micellar, không chứa paraben.";
+                    productImg = "https://skincode.com.vn/upload/2022/08/24/files/skincode-essentials-micellar-water-all-in-one-cleanser.jpg";
+                    productPrice = 1050000;
+                    break;
+                default:
+                    productDetails = "Không có thông tin chi tiết.";
+            }
+
+            let popupContent = `
+                <h2>${productName}</h2>
+                ${productImg ? `<img src="${productImg}" alt="${productName}">` : ''}
+                <p>${productDetails}</p>
+                <p>Giá: ${productPrice.toLocaleString()} VND</p>
+                <button onclick="addToCart('${productName}', ${productPrice})">Mua Ngay</button>
+                <button onclick="closeProductDetailsPopup()">Đóng</button>
+            `;
+            document.getElementById("product-details-info").innerHTML = popupContent;
+            document.getElementById("product-details-popup").style.display = "block";
+        }
+
+        function closeProductDetailsPopup() {
+            document.getElementById("product-details-popup").style.display = "none";
+        }
+    </script>
+    <script>
+    window.lovinbotChatbotConfig =
+    {
+        token: 'EYo0ZfYTjSBZXUvO',
+        baseUrl: 'https://app.lovinbot.ai',
+        imageToggle: 'https://lovinbot-ai.b-cdn.net/upload_files/19a6178d-c899-437a-b42d-30774dca322e/11ddfde1-25e3-4d54-a004-2279d4c41f3c.png',
+        colorBg: '#d9a7a0',
+    }
+    </script>
+    <script
+    src="https://cdn.jsdelivr.net/gh/lekimminhquan/chatbot@1.1.3/chatbot.min.js"
+    id="EYo0ZfYTjSBZXUvO"
+    defer
+    >
+    </script>
+    </head>
+<body>
+    <header>
+        <h1>Vi's Corner</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Trang chủ</a></li>
+                <li><a href="products.html">Sản phẩm</a></li>
+                <li><a href="blog.html">Beauty Tips</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section class="products">
+            <h2>Sản Phẩm Chăm Sóc Da</h2>
+            <div class="products-container">
+                <div class="product">
+                    <img src="https://skincode.com.vn/upload/2022/10/17/images/skincode-3-in-1-gentle-cleanser-2.jpg" alt="Skincode 3-in-1 Gentle Cleanser">
+                    <h3>Sữa rửa mặt tẩy trang Skincode 3-in-1</h3>
+                    <p>Giá: 1,100,000 VND</p>
+                    <button onclick="addToCart('Skincode 3-in-1 Gentle Cleanser', 1100000)">Mua Ngay</button>
+                    <button onclick="showProductDetails('Skincode 3-in-1 Gentle Cleanser')">Chi Tiết</button>
+                </div>
+                <div class="product">
+                    <img src="https://skincode.com.vn/upload/2022/08/24/files/skincode-essentials-S_O_S-oil-control-clarifying-wash.jpg" alt="Skincode S.O.S Oil Control Clarifying Wash">
+                    <h3>Sữa rửa mặt kiềm dầu Skincode S.O.S</h3>
+                    <p>Giá: 995,000 VND</p>
+                    <button onclick="addToCart('Skincode S.O.S Oil Control', 995000)">Mua Ngay</button>
+                    <button onclick="showProductDetails('Skincode S.O.S Oil Control')">Chi Tiết</button>
+                </div>
+                <div class="product">
+                    <img src="https://skincode.com.vn/upload/2022/08/24/files/skincode-essentials-purifying-cleansing-gel.jpg" alt="Skincode Essentials Purifying Cleansing Gel">
+                    <h3>Gel rửa mặt Skincode Essentials</h3>
+                    <p>Giá: 950,000 VND</p>
+                    <button onclick="addToCart('Skincode Essentials Purifying Cleansing Gel', 950000)">Mua Ngay</button>
+                    <button onclick="showProductDetails('Skincode Essentials Purifying Cleansing Gel')">Chi Tiết</button>
+                </div>
+                <div class="product">
+                    <img src="https://skincode.com.vn/upload/2022/08/24/files/skincode-essentials-micellar-water-all-in-one-cleanser.jpg" alt="Skincode Micellar Water All In One Cleanser">
+                    <h3>Sữa rửa mặt tẩy trang Skincode Micellar</h3>
+                    <p>Giá: 1,050,000 VND</p>
+                    <button onclick="addToCart('Skincode Micellar Water All In One Cleanser', 1050000)">Mua Ngay</button>
+                    <button onclick="showProductDetails('Skincode Micellar Water All In One Cleanser')">Chi Tiết</button>
+                </div>
+            </div>
+        </section>
+        <section class="cart">
+            <h2>Giỏ Hàng</h2>
+            <table>
+                <thead>
+                    <tr><th>Sản phẩm</th><th>Số lượng</th><th>Giá</th></tr>
+                </thead>
+                <tbody id="cart-items"></tbody>
+            </table>
+            <p><strong>Tổng sản phẩm:</strong> <span id="total-quantity">0</span></p>
+            <p><strong>Tổng giá:</strong> <span id="total-price">0 VND</span></p>
+            <button onclick="checkout()">Thanh toán</button>
+        </section>
+        <div id="payment-popup">
+            <div id="payment-info"></div>
+            <button onclick="closePopup()">Đóng</button>
+        </div>
+        <div id="product-details-popup">
+            <div id="product-details-info"></div>
+        </div>
+    </main>
+    <footer>
+        <p>© 2023 Vi's Corner. All rights reserved.</p>
+    </footer>
+</body>
+</html>
