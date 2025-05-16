@@ -454,6 +454,93 @@
                 padding-right: 0;
             }
         }
+
+        /* Order Form Styles */
+        #order-form {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 2rem;
+            border: 1px solid #b58980;
+            border-radius: 10px;
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+            z-index: 12;
+            text-align: left;
+            color: #5a3e36;
+            max-width: 400px;
+            overflow-y: auto;
+            max-height: 80vh;
+        }
+
+        #order-form h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #d9a7a0;
+            text-align: center;
+        }
+
+        #order-form label {
+            display: block;
+            margin-top: 1rem;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        #order-form input,
+        #order-form textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #b58980;
+            border-radius: 5px;
+            margin-top: 0.5rem;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+
+        #order-form textarea {
+            resize: vertical;
+        }
+
+        #order-form button {
+            margin-top: 1.5rem;
+            padding: 0.8rem 2rem;
+            background: #d9a7a0;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+            font-size: 1.1rem;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        #order-form button:hover {
+            background: #b58980;
+        }
+
+        .order-summary {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background-color: #f7ebe5;
+            border-radius: 5px;
+            border: 1px solid #b58980;
+        }
+
+        .order-summary h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.75rem;
+            color: #d9a7a0;
+        }
+
+        .order-summary p {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
     </style>
     <script>
         let cart = [];
@@ -487,18 +574,67 @@
         }
 
         function checkout() {
+            if (cart.length === 0) {
+                alert("Giỏ hàng của bạn đang trống!");
+                return;
+            }
+
             let orderId = "ORDER-" + Math.floor(Math.random() * 1000000);
+            document.getElementById("order-id").value = orderId;
+
+            let orderSummary = `<div class="order-summary">
+                <h3>Thông tin đơn hàng</h3>
+                <p>Mã đơn hàng: <strong>${orderId}</strong></p>`;
+            cart.forEach(item => {
+                orderSummary += `<p>${item.name}: ${item.quantity} x ${item.price.toLocaleString()} VND</p>`;
+            });
+            orderSummary += `<p>Tổng sản phẩm: <strong>${document.getElementById("total-quantity").innerText}</strong></p>
+                <p>Tổng giá: <strong>${document.getElementById("total-price").innerText}</strong></p>
+                </div>`;
+            document.getElementById("order-summary").innerHTML = orderSummary;
+            document.getElementById("payment-info").innerHTML = ""; // Clear previous payment info
+            document.getElementById("payment-popup").style.display = "none"; // Hide payment popup
+            document.getElementById("order-form").style.display = "block"; // Show order form
+        }
+
+        function submitOrder() {
+            let name = document.getElementById("name").value;
+            let phone = document.getElementById("phone").value;
+            let email = document.getElementById("email").value;
+            let address = document.getElementById("address").value;
+
+            if (!name || !phone || !email || !address) {
+                alert("Vui lòng nhập đầy đủ thông tin!");
+                return;
+            }
+
+            // Simulate sending data to Google Sheets (replace with actual implementation)
+            console.log("Order Data:", {
+                orderId: document.getElementById("order-id").value,
+                name: name,
+                phone: phone,
+                email: email,
+                address: address,
+                cart: cart,
+                totalPrice: document.getElementById("total-price").innerText
+            });
+
+            // Simulate successful submission and show payment info
             let paymentInfo = `
                 <h2>Thông tin thanh toán</h2>
                 <p>Tài khoản: <strong>VCB 0071004369538</strong></p>
                 <p>Chủ tài khoản: <strong>Nguyễn Song Quỳnh Vi</strong></p>
-                <p>Nội dung chuyển khoản: <strong>${orderId}</strong></p>
+                <p>Nội dung chuyển khoản: <strong>${document.getElementById("order-id").value}</strong></p>
                 <p>Tổng sản phẩm: <strong>${document.getElementById("total-quantity").innerText}</strong></p>
                 <p>Tổng giá: <strong>${document.getElementById("total-price").innerText}</strong></p>
                 <p><a href="https://zalo.me/0329909247" target="_blank">Xác nhận thanh toán qua Zalo</a></p>
             `;
             document.getElementById("payment-info").innerHTML = paymentInfo;
             document.getElementById("payment-popup").style.display = "block";
+            document.getElementById("order-form").style.display = "none"; // Hide order form after submission
+            cart = [];
+            updateCartUI();
+            alert("Cảm ơn bạn đã đặt hàng! Vui lòng kiểm tra thông tin thanh toán.");
         }
 
         function closePopup() {
@@ -510,23 +646,23 @@
             let productImg = "";
             let productPrice = 0;
             switch (productName) {
-                case "Gửi email hàng loạt-cá nhân hoá":
-                    productDetails = "Flow tự động hóa giúp bạn: Gửi email hàng loạt như thể viết tay từng cái. Cá nhân hóa tên, mã ưu đãi, nội dung riêng. Gửi qua Gmail, Outlook hoặc bất kỳ nền tảng nào bạn dùng. Xem thêm: https://breezy-comic-723.notion.site/G-i-Email-H-ng-Lo-t-M-V-n-C-Nh-n-Nh-T-ng-Tin-Nh-n-Ri-ng-Bi-t-1f20de25554b8148a570ed3bb8db09f5?pvs=4";
+                case "Gửi Email Hàng Loạt":
+                    productDetails = "Cá nhân hóa như gửi tay – nhưng nhanh gấp 10 lần . Không còn sai tên, sót nội dung, hay gửi nhầm người. Dễ mở rộng cho 10, 100 hay 1.000 khách hàng chỉ trong vài phút. Giữ phong cách chuyên nghiệp – tăng tỷ lệ phản hồi & chuyển đổi.";
                     productImg = "https://skincode.com.vn/upload/2022/10/17/images/skincode-3-in-1-gentle-cleanser-2.jpg";
                     productPrice = 1100000;
                     break;
-                case "Tự Động tạo content & Đăng Bài Đa Kênh":
-                    productDetails = "Bạn đang gặp phải những vấn đề sau: Mỗi ngày phải vắt óc nghĩ nội dung mới? Đăng bài thủ công từng kênh, canh giờ để post cho kịp giờ vàng? Nội dung thiếu nhất quán, hiệu quả tương tác không như mong đợi? Hãy để Flow này giải phóng bạn";
+                case "Tự Động tạo nội dung & Đăng Bài Đa Kênh":
+                    productDetails = "Bạn nhập chủ đề. Flow tự gợi ý từ khóa để tối ưu SEO hoặc tương tác. Dựa vào từ khóa, tự tạo tiêu đề và nội dung bài viết. Nội dung được định dạng sẵn, kèm hashtag, caption. Bạn duỵệt nôi dung.  Hệ thống tự động đăng bài lên các nền tảng đã kết nối..";
                     productImg = "https://skincode.com.vn/upload/2022/08/24/files/skincode-essentials-S_O_S-oil-control-clarifying-wash.jpg";
                     productPrice = 995000;
                     break;
-                case "Gửi email hàng loạt-cá nhân hoá":
-                    productDetails = "Chiết xuất lô hội, vitamin B5, không chứa paraben. Làm sạch sâu, chống khuẩn, ngừa viêm nhiễm và hỗ trợ điều trị mụn. Thoa một lượng nhỏ lên da ướt, massage nhẹ nhàng rồi rửa lại với nước. Sử dụng hàng ngày, sáng và tối. Phù hợp cho da dầu và da hỗn hợp.";
+                case "Skincode Essentials Purifying Cleansing Gel":
+                    productDetails = "Gel rửa mặt làm sạch sâu, chống khuẩn, ngừa viêm nhiễm và hỗ trợ điều trị mụn. Chứa chiết xuất lô hội và vitamin B5, không chứa Paraben. Phù hợp cho da dầu và da hỗn hợp.";
                     productImg = "https://skincode.com.vn/upload/2022/08/24/files/skincode-essentials-purifying-cleansing-gel.jpg";
                     productPrice = 950000;
                     break;
                 case "Skincode Micellar Water All In One Cleanser":
-                    productDetails = "Công nghệ Micellar, không chứa paraben.";
+                    productDetails = "Nước tẩy trang Micellar làm sạch nhẹ nhàng và hiệu quả, loại bỏ bụi bẩn và lớp trang điểm mà không cần rửa lại. Không chứa Paraben.";
                     productImg = "https://skincode.com.vn/upload/2022/08/24/files/skincode-essentials-micellar-water-all-in-one-cleanser.jpg";
                     productPrice = 1050000;
                     break;
@@ -579,28 +715,28 @@
     </header>
     <main>
         <section class="products">
-            <h2>Corner - Touch – Activate – Operate</h2>
+            <h2>Sản Phẩm Chăm Sóc Da</h2>
             <div class="products-container">
                 <div class="product">
                     <img src="https://skincode.com.vn/upload/2022/10/17/images/skincode-3-in-1-gentle-cleanser-2.jpg" alt="Skincode 3-in-1 Gentle Cleanser">
-                    <h3>Gửi email hàng loạt - cá nhân hoá</h3>
+                    <h3>Gửi Email Hàng Loạt - cá nhân hoá</h3>
                     <p>Giá: 1,100,000 VND</p>
-                    <button onclick="addToCart('Gửi email hàng loạt - cá nhân hoá', 1100000)">Mua Ngay</button>
-                    <button onclick="showProductDetails('Gửi email hàng loạt - cá nhân hoá')">Chi Tiết</button>
+                    <button onclick="addToCart('Gửi Email Hàng Loạt - cá nhân hoá', 1100000)">Mua Ngay</button>
+                    <button onclick="showProductDetails('Gửi Email Hàng Loạt - cá nhân hoá')">Chi Tiết</button>
                 </div>
                 <div class="product">
-                    <img src="https://skincode.com.vn/upload/2022/08/24/files/skincode-essentials-S_O_S-oil-control-clarifying-wash.jpg" alt="Skincode S.O.S Oil Control Clarifying Wash">
-                    <h3>Tự Động tạo content & Đăng Bài Đa Kênh</h3>
+                    <img src="https://skincode.com.vn/upload/2022/08/24/files/skincode-essentials-S_O_S-oil-control-clarifying-wash.jpg" alt="Tự Động tạo nội dung & Đăng Bài Đa Kênh">
+                    <h3>Tự Động tạo nội dung & Đăng Bài Đa Kênh</h3>
                     <p>Giá: 995,000 VND</p>
-                    <button onclick="addToCart('Tự Động tạo content & Đăng Bài Đa Kênh', 995000)">Mua Ngay</button>
-                    <button onclick="showProductDetails('Tự Động tạo content & Đăng Bài Đa Kênh')">Chi Tiết</button>
+                    <button onclick="addToCart('Tự Động tạo nội dung & Đăng Bài Đa Kênh', 995000)">Mua Ngay</button>
+                    <button onclick="showProductDetails('Tự Động tạo nội dung & Đăng Bài Đa Kênh')">Chi Tiết</button>
                 </div>
                 <div class="product">
-                    <img src="https://skincode.com.vn/upload/2022/08/24/files/skincode-essentials-purifying-cleansing-gel.jpg" alt="Gửi email hàng loạt-cá nhân hoá">
-                    <h3>Gửi email hàng loạt-cá nhân hoá</h3>
+                    <img src="https://skincode.com.vn/upload/2022/08/24/files/skincode-essentials-purifying-cleansing-gel.jpg" alt="Skincode Essentials Purifying Cleansing Gel">
+                    <h3>Gel rửa mặt Skincode Essentials</h3>
                     <p>Giá: 950,000 VND</p>
-                    <button onclick="addToCart('Gửi email hàng loạt-cá nhân hoá', 950000)">Mua Ngay</button>
-                    <button onclick="showProductDetails('Gửi email hàng loạt-cá nhân hoá')">Chi Tiết</button>
+                    <button onclick="addToCart('Skincode Essentials Purifying Cleansing Gel', 950000)">Mua Ngay</button>
+                    <button onclick="showProductDetails('Skincode Essentials Purifying Cleansing Gel')">Chi Tiết</button>
                 </div>
                 <div class="product">
                     <img src="https://skincode.com.vn/upload/2022/08/24/files/skincode-essentials-micellar-water-all-in-one-cleanser.jpg" alt="Skincode Micellar Water All In One Cleanser">
@@ -629,6 +765,28 @@
         </div>
         <div id="product-details-popup">
             <div id="product-details-info"></div>
+            <button onclick="closeProductDetailsPopup()">Đóng</button>
+        </div>
+        <div id="order-form">
+            <h2>Thông tin đơn hàng</h2>
+            <div id="order-summary"></div>
+            <form>
+                <label for="name">Họ và tên:</label>
+                <input type="text" id="name" name="name" required>
+
+                <label for="phone">Số điện thoại:</label>
+                <input type="tel" id="phone" name="phone" required>
+
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+
+                <label for="address">Địa chỉ:</label>
+                <textarea id="address" name="address" rows="4" required></textarea>
+
+                <input type="hidden" id="order-id" name="order_id">
+
+                <button type="button" onclick="submitOrder()">Gửi đơn hàng</button>
+            </form>
         </div>
     </main>
     <footer>
