@@ -450,7 +450,7 @@
                 top: 0;
                 margin-top: 2rem;
             }
-            .products {
+             .products {
                 padding-right: 0;
             }
         }
@@ -608,11 +608,8 @@
                 return;
             }
 
-            // Google Apps Script URL (Replace with your deployed script URL)
-            const scriptUrl = "https://script.google.com/macros/s/AKfycbyG4Wx45R46s8AUukA2B8ZPUmZYpZ_p2q6tG4hIC8V3Qdc51xt_BWCIViisd5P7hLXlTg/exec";
-
-            // Prepare the data to send
-            const orderData = {
+            // Simulate sending data to Google Sheets (replace with actual implementation)
+            console.log("Order Data:", {
                 orderId: document.getElementById("order-id").value,
                 name: name,
                 phone: phone,
@@ -620,48 +617,24 @@
                 address: address,
                 cart: cart,
                 totalPrice: document.getElementById("total-price").innerText
-            };
-
-            // Send the data to the Google Apps Script web app
-            fetch(scriptUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(orderData),
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log('Google Apps Script response:', data);
-                // Handle the response from the Apps Script if needed
-
-                // Simulate successful submission and show payment info
-                let paymentInfo = `
-                    <h2>Thông tin thanh toán</h2>
-                    <p>Tài khoản: <strong>VCB 0071004369538</strong></p>
-                    <p>Chủ tài khoản: <strong>Nguyễn Song Quỳnh Vi</strong></p>
-                    <p>Nội dung chuyển khoản: <strong>${document.getElementById("order-id").value}</strong></p>
-                    <p>Tổng sản phẩm: <strong>${document.getElementById("total-quantity").innerText}</strong></p>
-                    <p>Tổng giá: <strong>${document.getElementById("total-price").innerText}</strong></p>
-                    <p><a href="https://zalo.me/0329909247" target="_blank">Xác nhận thanh toán qua Zalo</a></p>
-                `;
-                document.getElementById("payment-info").innerHTML = paymentInfo;
-                document.getElementById("payment-popup").style.display = "block";
-                document.getElementById("order-form").style.display = "none"; // Hide order form after submission
-                cart = [];
-                updateCartUI();
-                alert("Cảm ơn bạn đã đặt hàng! Vui lòng kiểm tra thông tin thanh toán.");
-
-            })
-            .catch(error => {
-                console.error('Error sending data to Google Apps Script:', error);
-                alert("Có lỗi xảy ra khi gửi đơn hàng. Vui lòng thử lại sau.");
             });
+
+            // Simulate successful submission and show payment info
+            let paymentInfo = `
+                <h2>Thông tin thanh toán</h2>
+                <p>Tài khoản: <strong>VCB 0071004369538</strong></p>
+                <p>Chủ tài khoản: <strong>Nguyễn Song Quỳnh Vi</strong></p>
+                <p>Nội dung chuyển khoản: <strong>${document.getElementById("order-id").value}</strong></p>
+                <p>Tổng sản phẩm: <strong>${document.getElementById("total-quantity").innerText}</strong></p>
+                <p>Tổng giá: <strong>${document.getElementById("total-price").innerText}</strong></p>
+                <p><a href="https://zalo.me/0329909247" target="_blank">Xác nhận thanh toán qua Zalo</a></p>
+            `;
+            document.getElementById("payment-info").innerHTML = paymentInfo;
+            document.getElementById("payment-popup").style.display = "block";
+            document.getElementById("order-form").style.display = "none"; // Hide order form after submission
+            cart = [];
+            updateCartUI();
+            alert("Cảm ơn bạn đã đặt hàng! Vui lòng kiểm tra thông tin thanh toán.");
         }
 
         function closePopup() {
@@ -674,8 +647,8 @@
             let productPrice = 0;
             switch (productName) {
                 case "Gửi Email Hàng Loạt - cá nhân hoá":
-                    productDetails = "Cá nhân hóa như gửi tay–nhưng nhanhgấp 10 lần. Không còn sai tên, sót nội dung, hay gửi nhầm người. Dễ mở rộng cho 10, 100 hay 1,000 khách hàng chỉ trong vài phút. Giữ phong cách chuyên nghiệp–tăng tỷ lệ phản hồi & chuyển đổi.";
-                    productImg = "https://res.cloudinary.com/dtz36zmtd/image/upload/v1747389961/email_copy_iwltvr.png";
+                    productDetails = "Cá nhân hóa như gửi tay–nhưng nhanh gấp 10 lần. Không còn sai tên, sót nội dung, hay gửi nhầm người. Dễ mở rộng cho 10, 100 hay 1,000 khách hàng chỉ trong vài phút. Giữ phong cách chuyên nghiệp–tăng tỷ lệ phản hồi & chuyển đổi.";
+                    productImg = "https://res.cloudinary.com/dtz36zmtd/image/upload/v1747381168/G%E1%BB%ADi_mail_h%C3%A0ng_lo%E1%BA%A1t_w4vu3r.png";
                     productPrice = 1100000;
                     break;
                 case "Tự Động tạo nội dung & Đăng Bài Đa Kênh":
@@ -716,7 +689,7 @@
     <script>
     window.lovinbotChatbotConfig =
     {
-        token: 'EYo0ZfYTjSBZXUvO',
+        token: 'YOUR_TOKEN',
         baseUrl: 'https://app.lovinbot.ai',
         imageToggle: 'https://lovinbot-ai.b-cdn.net/upload_files/19a6178d-c899-437a-b42d-30774dca322e/11ddfde1-25e3-4d54-a004-2279d4c41f3c.png',
         colorBg: '#d9a7a0',
@@ -724,7 +697,7 @@
     </script>
     <script
     src="https://cdn.jsdelivr.net/gh/lekimminhquan/chatbot@1.1.3/chatbot.min.js"
-    id="EYo0ZfYTjSBZXUvO"
+    id="YOUR_TOKEN"
     defer
     >
     </script>
@@ -745,7 +718,7 @@
             <h2>AI Automation workflow - Make life easier</h2>
             <div class="products-container">
                 <div class="product">
-                    <img src="https://res.cloudinary.com/dtz36zmtd/image/upload/v1747389961/email_copy_iwltvr.png" alt="Gửi Email Hàng Loạt - cá nhân hoá">
+                    <img src="https://skincode.com.vn/upload/2022/10/17/images/skincode-3-in-1-gentle-cleanser-2.jpg" alt="Skincode 3-in-1 Gentle Cleanser">
                     <h3>Gửi Email Hàng Loạt - cá nhân hoá</h3>
                     <p>Giá: 1,100,000 VND</p>
                     <button onclick="addToCart('Gửi Email Hàng Loạt - cá nhân hoá', 1100000)">Mua Ngay</button>
