@@ -608,8 +608,11 @@
                 return;
             }
 
-            // Simulate sending data to Google Sheets (replace with actual implementation)
-            console.log("Order Data:", {
+            // Google Apps Script URL (Replace with your deployed script URL)
+            const scriptUrl = "https://script.google.com/macros/s/AKfycbyG4Wx45R46s8AUukA2B8ZPUmZYpZ_p2q6tG4hIC8V3Qdc51xt_BWCIViisd5P7hLXlTg/exec";
+
+            // Prepare the data to send
+            const orderData = {
                 orderId: document.getElementById("order-id").value,
                 name: name,
                 phone: phone,
@@ -617,24 +620,15 @@
                 address: address,
                 cart: cart,
                 totalPrice: document.getElementById("total-price").innerText
-            });
+            };
 
-            // Simulate sending data to webhook
-            const webhookUrl = 'https://hook.us2.make.com/do6wdvwxkiwg1yeg51cbq19pq7qsr2je';  // Replace with your actual webhook URL
-            fetch(webhookUrl, {
+            // Send the data to the Google Apps Script web app
+            fetch(scriptUrl, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
-                    orderId: document.getElementById("order-id").value,
-                    name: name,
-                    phone: phone,
-                    email: email,
-                    address: address,
-                    cart: cart,
-                    totalPrice: document.getElementById("total-price").innerText
-                }),
+                body: JSON.stringify(orderData),
             })
             .then(response => {
                 if (!response.ok) {
@@ -643,30 +637,31 @@
                 return response.json();
             })
             .then(data => {
-                console.log('Webhook response:', data);
-                // Handle the response from the webhook if needed
+                console.log('Google Apps Script response:', data);
+                // Handle the response from the Apps Script if needed
+
+                // Simulate successful submission and show payment info
+                let paymentInfo = `
+                    <h2>Thông tin thanh toán</h2>
+                    <p>Tài khoản: <strong>VCB 0071004369538</strong></p>
+                    <p>Chủ tài khoản: <strong>Nguyễn Song Quỳnh Vi</strong></p>
+                    <p>Nội dung chuyển khoản: <strong>${document.getElementById("order-id").value}</strong></p>
+                    <p>Tổng sản phẩm: <strong>${document.getElementById("total-quantity").innerText}</strong></p>
+                    <p>Tổng giá: <strong>${document.getElementById("total-price").innerText}</strong></p>
+                    <p><a href="https://zalo.me/0329909247" target="_blank">Xác nhận thanh toán qua Zalo</a></p>
+                `;
+                document.getElementById("payment-info").innerHTML = paymentInfo;
+                document.getElementById("payment-popup").style.display = "block";
+                document.getElementById("order-form").style.display = "none"; // Hide order form after submission
+                cart = [];
+                updateCartUI();
+                alert("Cảm ơn bạn đã đặt hàng! Vui lòng kiểm tra thông tin thanh toán.");
+
             })
             .catch(error => {
-                console.error('Error sending data to webhook:', error);
+                console.error('Error sending data to Google Apps Script:', error);
                 alert("Có lỗi xảy ra khi gửi đơn hàng. Vui lòng thử lại sau.");
             });
-
-            // Simulate successful submission and show payment info
-            let paymentInfo = `
-                <h2>Thông tin thanh toán</h2>
-                <p>Tài khoản: <strong>VCB 0071004369538</strong></p>
-                <p>Chủ tài khoản: <strong>Nguyễn Song Quỳnh Vi</strong></p>
-                <p>Nội dung chuyển khoản: <strong>${document.getElementById("order-id").value}</strong></p>
-                <p>Tổng sản phẩm: <strong>${document.getElementById("total-quantity").innerText}</strong></p>
-                <p>Tổng giá: <strong>${document.getElementById("total-price").innerText}</strong></p>
-                <p><a href="https://zalo.me/0329909247" target="_blank">Xác nhận thanh toán qua Zalo</a></p>
-            `;
-            document.getElementById("payment-info").innerHTML = paymentInfo;
-            document.getElementById("payment-popup").style.display = "block";
-            document.getElementById("order-form").style.display = "none"; // Hide order form after submission
-            cart = [];
-            updateCartUI();
-            alert("Cảm ơn bạn đã đặt hàng! Vui lòng kiểm tra thông tin thanh toán.");
         }
 
         function closePopup() {
